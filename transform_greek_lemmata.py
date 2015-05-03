@@ -59,9 +59,9 @@ if __name__ == '__main__':
     greek_lemma_headword = parse_perseus_lemmata_file(greek_file_generator, greek=False)
 
     print('Starting to build map …')
-    lemmata_dd = defaultdict(list)
+    lemmata_dd = defaultdict(set)
     for k, v in greek_lemma_headword:
-        lemmata_dd[k].append(v)
+        lemmata_dd[k].add(v)
 
     print('Starting to write file …')
     with open('greek_lemmata_cltk.txt', 'w') as file_opened:
