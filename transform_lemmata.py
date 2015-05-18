@@ -1,9 +1,21 @@
+
+
 from cltk.corpus.greek.beta_to_unicode import Replacer
 from collections import Counter
 from collections import defaultdict
 import operator
 
 replacer = Replacer()
+
+MANUAL_REPLACEMENTS = {'ἐστὶν': 'εἰμί',
+                      'ἐστὶ': 'εἰμί',
+                      'ἐστί': 'εἰμί',
+                      'ἐστίν': 'εἰμί',
+                      'λαμβάνει': 'λαμβάνω',
+                      'λάβοι': 'λαμβάνω',
+                      'λαβὼν': 'λαμβάνω',
+                      'λαμβάνων': 'λαμβάνω',
+                      }
 
 
 def file_line_generator(file):
@@ -96,6 +108,12 @@ if __name__ == '__main__':
             final_lemmata[k] = top_headword
         else:
             final_lemmata[k] = list(v)[0]
+
+    # could be improved to add pairs not in final_lemmata
+    for k, v in MANUAL_REPLACEMENTS.items():
+        if k in final_lemmata.keys():
+            final_lemmata[k] = MANUAL_REPLACEMENTS[k]
+
 
     print('Starting to write file …')
     with open('greek_lemmata_cltk.py', 'w') as file_opened:
