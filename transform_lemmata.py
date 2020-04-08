@@ -117,4 +117,7 @@ if __name__ == '__main__':
 
     print('Starting to write file …')
     with open('greek_lemmata_cltk.py', 'w') as file_opened:
-        file_opened.write('LEMMATA = ' + str(dict(final_lemmata)))
+        print('LEMMATA = {', file=file_opened)
+        for word, lemma in final_lemmata.items():
+            print('{!r}: {!r},'.format(word, lemma), file=file_opened)
+        print('}', file=file_opened)
