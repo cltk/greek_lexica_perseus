@@ -102,9 +102,8 @@ if __name__ == '__main__':
             for curr_hw in list(v):
                 curr_count = headword_frequencies[curr_hw]
                 count_dict[curr_hw] = curr_count
-            # http://stackoverflow.com/a/268285
-            # if tie then takes one
-            top_headword = max(count_dict.items(), key=operator.itemgetter(1))[0]
+            # Break ties by taking the lexicographically greatest.
+            top_headword = max(v, key = lambda lemma: (count_dict[lemma], lemma))
             final_lemmata[k] = top_headword
         else:
             final_lemmata[k] = list(v)[0]
@@ -118,6 +117,6 @@ if __name__ == '__main__':
     print('Starting to write file …')
     with open('greek_lemmata_cltk.py', 'w') as file_opened:
         print('LEMMATA = {', file=file_opened)
-        for word, lemma in final_lemmata.items():
+        for word, lemma in sorted(final_lemmata.items()):
             print('{!r}: {!r},'.format(word, lemma), file=file_opened)
         print('}', file=file_opened)
