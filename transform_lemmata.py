@@ -46,11 +46,15 @@ def parse_perseus_lemmata_file(file_generator, greek):
             print('Parsing line {0}'.format(count))
         line_split = line.split('\t')
         headword = line_split[0]
+        if greek:
+            headword = replacer.beta_code(headword.upper() + ' ')[:-1].lower()  # add space to get final sigma 'ς', then rm it
         headword_id = line_split[1]
         line_lemmata = line_split[2:]
         for lemma_str in line_lemmata:
             lemma_list = lemma_str.split(' ', 1)
             lemma = lemma_list[0]
+            if greek:
+                lemma = replacer.beta_code(lemma.upper() + ' ')[:-1].lower()  # add space to get final sigma 'ς', then rm it #? why some coming out capitalized?
             lemma_pos_str = lemma_list[1]
             lemma_pos_list = lemma_pos_str.split(') (')
 
@@ -69,10 +73,6 @@ def parse_perseus_lemmata_file(file_generator, greek):
                     lemma_pos = lemma_pos_list[0]
                     lemma_pos_comment = lemma_pos_list[1][:-1]
                     lemma_pos_comment_list = lemma_pos_comment.split(' ')
-
-                if greek:
-                    lemma = replacer.beta_code(lemma.upper() + ' ')[:-1].lower()  # add space to get final sigma 'ς', then rm it #? why some coming out capitalized?
-                    headword = replacer.beta_code(headword.upper() + ' ')[:-1].lower()  # add space to get final sigma 'ς', then rm it
 
                 #print(lemma, headword)
 
